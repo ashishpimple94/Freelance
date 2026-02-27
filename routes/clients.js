@@ -9,17 +9,25 @@ router.get('/', auth, async (req, res) => {
     const clients = await Client.find({ userId: req.user.userId }).sort({ createdAt: -1 });
     res.json(clients);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Get clients error:', err);
+    res.status(500).json({ message: 'Failed to fetch clients' });
   }
 });
 
 router.post('/', auth, async (req, res) => {
   try {
+    const { name, email } = req.body;
+    
+    if (!name || !email) {
+      return res.status(400).json({ message: 'Name and email are required' });
+    }
+
     const client = new Client({ ...req.body, userId: req.user.userId });
     await client.save();
     res.json(client);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Create client error:', err);
+    res.status(500).json({ message: 'Failed to create client' });
   }
 });
 
@@ -30,18 +38,30 @@ router.put('/:id', auth, async (req, res) => {
       req.body,
       { new: true }
     );
+    
+    if (!client) {
+      return res.status(404).json({ message: 'Client not found' });
+    }
+    
     res.json(client);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Update client error:', err);
+    res.status(500).json({ message: 'Failed to update client' });
   }
 });
 
 router.delete('/:id', auth, async (req, res) => {
   try {
-    await Client.findOneAndDelete({ _id: req.params.id, userId: req.user.userId });
-    res.json({ message: 'Client deleted' });
+    const client = await Client.findOneAndDelete({ _id: req.params.id, userId: req.user.userId });
+    
+    if (!client) {
+      return res.status(404).json({ message: 'Client not found' });
+    }
+    
+    res.json({ message: 'Client deleted successfully' });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Delete client error:', err);
+    res.status(500).json({ message: 'Failed to delete client' });
   }
 });
 
