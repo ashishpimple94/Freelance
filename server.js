@@ -25,11 +25,12 @@ const checkAuth = (req, res, next) => {
 
 // Login route
 app.post('/api/auth/login', (req, res) => {
-  const { password } = req.body;
-  if (password === ADMIN_PASSWORD) {
-    res.json({ success: true, password: ADMIN_PASSWORD });
+  const { email, password } = req.body;
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@freelance.com';
+  if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+    res.json({ success: true });
   } else {
-    res.status(401).json({ message: 'Invalid password' });
+    res.status(401).json({ message: 'Invalid email or password' });
   }
 });
 
