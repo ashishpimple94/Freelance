@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   client: { type: String, required: true },
   website: { type: String, required: true },
   domain: String,
