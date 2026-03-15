@@ -23,6 +23,11 @@ const checkAuth = (req, res, next) => {
   next();
 };
 
+// Health check route
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Freelance Manager API is running' });
+});
+
 // Login route
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body;
