@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
-const ADMIN_EMAIL = 'admin@freelance.com';
-const ADMIN_PASSWORD = 'Freelance2024Admin';
+const ADMIN_EMAIL = 'ashish@freelance.com';
+const ADMIN_PASSWORD = 'Ashish@9408#FM';
 
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
