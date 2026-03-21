@@ -1,9 +1,7 @@
 const express = require('express');
 const Payment = require('../models/Payment');
-const auth = require('../middleware/auth');
 
 const router = express.Router();
-router.use(auth);
 
 router.get('/', async (req, res) => {
   try {
